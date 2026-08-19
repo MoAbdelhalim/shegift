@@ -7,7 +7,7 @@ window.APP_CONFIG = {
   /* store identity ------------------------------------------ */
   shop: {
     brand:    "SHEGIFT",
-    
+    city:     "CASABLANCA",
     delivery: 30,          // delivery fee in DH
     freeFrom: 400          // free delivery from this subtotal
   },
@@ -39,7 +39,7 @@ window.APP_CONFIG = {
   },
 
   /* who may open the workspace ------------------------------- */
-  access: { ownerId: "FbEUlWeNsTWWTn3X4XtPbsZOJjr1" },
+  access: { ownerId: "LU84LyBjakPv7oTjnq4YDnHPUYY2" },
 
   /* runtime libraries --------------------------------------- */
   libs: {
