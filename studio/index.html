@@ -6,6 +6,9 @@
 <title>Studio</title>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="theme-color" content="#FF6FA5">
+<link rel="icon" href="../assets/favicon.png">
+<script src="../assets/config.js"></script>
+<script>window.APP_CONFIG||document.write('<scr'+'ipt src="/assets/config.js"><\/scr'+'ipt>')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;800&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,6 +21,7 @@
   --display:'Baloo Bhaijaan 2',system-ui,sans-serif;--body:'Cairo',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;font-family:var(--body);background:var(--cream);color:var(--plum);-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
@@ -27,8 +31,8 @@ img{display:block;max-width:100%}
 
 .top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
 .top-in{display:flex;align-items:center;gap:12px;height:60px}
-.mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--pink),var(--pink-deep));display:grid;place-items:center;flex:none}
-.mark span{color:#fff;font-family:var(--display);font-weight:800;font-size:15px}
+.mark{width:38px;height:38px;border-radius:50%;flex:none;object-fit:cover}
+@media(max-width:620px){.who #userMail{display:none}}
 .title{font-family:var(--display);font-weight:800;font-size:18px;line-height:1.1}
 .title small{display:block;font-family:var(--body);font-size:10.5px;font-weight:600;color:var(--plum-soft);letter-spacing:1.2px}
 .who{margin-inline-start:auto;display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--plum-soft)}
@@ -161,6 +165,7 @@ main{padding:20px 0 70px}
 }
 #paper .ph{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px}
 #paper .ph .b{font-family:var(--display);font-size:22px;font-weight:800;letter-spacing:1px}
+#paper .plogo{width:52px;height:52px;margin-bottom:4px}
 #paper .ph .b small{display:block;font-family:var(--body);font-size:10px;font-weight:600;letter-spacing:2px}
 #paper .ph .doc{text-align:end}
 #paper .ph .doc h1{font-size:15px;margin:0 0 4px;text-transform:uppercase;letter-spacing:1px}
@@ -191,11 +196,12 @@ main{padding:20px 0 70px}
 
 <div class="top">
   <div class="wrap top-in">
-    <div class="mark"><span>S</span></div>
+    <img class="mark" src="../assets/logo.png" alt="">
     <div class="title">Studio<small id="wsName">CATALOGUE &amp; ORDERS</small></div>
     <div class="who">
       <span class="pill" id="mode">وضع تجريبي</span>
       <span id="userMail"></span>
+      <button class="btn btn-g btn-s" id="diag">🩺 الحالة</button>
       <button class="btn btn-g btn-s" id="access">🔑 الدخول</button>
       <button class="btn btn-g btn-s" id="signout" hidden>خروج</button>
     </div>
@@ -372,10 +378,23 @@ main{padding:20px 0 70px}
   </div>
 </div>
 
+<div class="modal" id="mDiag">
+  <div class="sheet sm">
+    <header><h3>حالة الستوديو</h3><button class="x" data-close>✕</button></header>
+    <div class="bd">
+      <div id="diagList" style="font-size:13.5px;line-height:2"></div>
+      <p class="hint" id="diagHint"></p>
+    </div>
+    <footer>
+      <button class="btn btn-g" data-close>سد</button>
+      <button class="btn btn-p" id="runDiag">أعد الفحص</button>
+    </footer>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <div id="paper"></div>
 
-<script src="/assets/config.js"></script>
 <script>
 /* ============================================================
    Studio — all settings come from /assets/config.js
@@ -421,8 +440,7 @@ const DEMO_ORDERS=[
    Start — demo first, live only after sign-in
    ============================================================ */
 function lib(src){ return new Promise((ok,no)=>{ const s=document.createElement("script"); s.src=src; s.async=false; s.onload=ok; s.onerror=no; document.head.appendChild(s) }) }
-loadDemo();
-(async function start(){
+async function start(){
   if(!syncOk){ $("#access").hidden=true; return }
   try{
     await lib(A.libs.core); await lib(A.libs.auth); await lib(A.libs.data);
@@ -434,7 +452,7 @@ loadDemo();
       S.user=u; goLive();
     });
   }catch(e){ console.warn("live mode unavailable",e); $("#access").hidden=true }
-})();
+}
 
 function loadDemo(){
   S.live=false;
@@ -465,10 +483,18 @@ $("#signin").onclick=async()=>{
   const b=$("#signin"); b.disabled=true; b.innerHTML='<span class="spin"></span> كنتحقق…';
   try{ await firebase.auth().signInWithEmailAndPassword(e,p) }
   catch(err){
-    const map={"auth/invalid-credential":"الإيميل ولا كلمة السر ماشي صحيحين.","auth/invalid-email":"الإيميل ماشي صحيح.",
-      "auth/user-not-found":"ما كاين حتى حساب بهاد الإيميل.","auth/wrong-password":"كلمة السر غالطة.",
-      "auth/too-many-requests":"جربتي بزاف. تسنى شوية و عاود.","auth/network-request-failed":"ما كاينش الاتصال بالإنترنت."};
-    acMsg(map[err.code]||"ما قدرناش ندخلو. عاود جرب.");
+    const map={
+      "auth/invalid-credential":"الإيميل ولا كلمة السر ماشي صحيحين.",
+      "auth/invalid-email":"الإيميل ماشي صحيح.",
+      "auth/missing-password":"كتب كلمة السر.",
+      "auth/user-not-found":"ما كاين حتى حساب بهاد الإيميل — خاصك تصاوب الحساب فلوحة خدمة البيانات.",
+      "auth/wrong-password":"كلمة السر غالطة.",
+      "auth/user-disabled":"هاد الحساب موقّف.",
+      "auth/too-many-requests":"جربتي بزاف. تسنى شوية و عاود.",
+      "auth/network-request-failed":"ما كاينش الاتصال بالإنترنت.",
+      "auth/operation-not-allowed":"الدخول بالإيميل ماشي مفعّل فخدمة البيانات — فعّلو من إعدادات الحسابات.",
+      "auth/unauthorized-domain":"هاد الدومين ماشي مسموح — زيد دومين الموقع فلائحة الدومينات المسموحة."};
+    acMsg((map[err.code]||"ما قدرناش ندخلو. عاود جرب.")+" ("+(err.code||"?")+")");
   }
   b.disabled=false; b.textContent="دخول";
 };
@@ -499,7 +525,11 @@ async function del(path,id){
   if(i>=0){ arr.splice(i,1); LS.set(k,arr) }
 }
 function refresh(){ if(!S.live){ renderOrders(); renderProducts(); renderCats(); fillCatSelect() } }
-function fail(e){ toast(e?.code==="PERMISSION_DENIED"?"ما عندكش الإذن باش تبدل هادشي.":"ما تحفظش. عاود جرب.") }
+function fail(e){
+  const denied = e?.code==="PERMISSION_DENIED" || /permission_denied/i.test(e?.message||"");
+  toast(denied?"ما عندكش الإذن — شوف 🩺 الحالة":"ما تحفظش. عاود جرب. ("+(e?.code||e?.message||"?")+")");
+  if(denied) runDiag();
+}
 
 /* ============================================================
    Tabs
@@ -602,7 +632,7 @@ const brand=()=>A.shop?.brand||"SHEGIFT";
 const today=()=>{ const d=new Date(),p=n=>String(n).padStart(2,"0"); return `${p(d.getDate())}/${p(d.getMonth()+1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}` };
 function header(docAr,docFr,ref,extra=""){
   return `<div class="ph">
-    <div class="b">${esc(brand())}<small>${esc(A.shop?.city||"CASABLANCA")} · ${esc(A.contact?.whatsapp||"")}</small></div>
+    <div class="b"><img src="../assets/logo.png" alt="" class="plogo">${esc(brand())}<small>${esc(A.shop?.city||"CASABLANCA")} · ${esc(A.contact?.whatsapp||"")}</small></div>
     <div class="doc"><h1>${docAr} / ${docFr}</h1><div class="ref">${esc(ref)}</div><div class="dt">${today()}${extra?" · "+extra:""}</div></div>
   </div>`;
 }
@@ -885,6 +915,65 @@ $("#saveSet").onclick=async()=>{
 };
 
 /* ============================================================
+   Diagnostics — 🩺 الحالة
+   ============================================================ */
+const DIAG=[];
+function drawDiag(){
+  $("#diagList").innerHTML=DIAG.map(d=>{
+    const ic=d.state==="ok"?"✅":d.state==="warn"?"⚠️":d.state==="run"?"⏳":"❌";
+    return `<div>${ic} <b>${d.label}</b>${d.detail?` — <span style="color:var(--plum-soft)">${esc(d.detail)}</span>`:""}</div>`;
+  }).join("");
+  const broken=DIAG.filter(d=>d.state==="bad");
+  $("#diagHint").textContent = broken.length ? broken[0].fix||"" : "كلشي خدام.";
+}
+function set(label,state,detail,fix){
+  const i=DIAG.findIndex(d=>d.label===label);
+  const row={label,state,detail,fix};
+  if(i>=0) DIAG[i]=row; else DIAG.push(row);
+  drawDiag();
+}
+async function runDiag(){
+  open("#mDiag"); DIAG.length=0; drawDiag();
+  set("ملف الإعدادات", A.sync?.key?"ok":"bad", A.sync?.key?"تحمّل مزيان":"ما تحمّلش",
+      "الملف assets/config.js ما وصلش. تأكد أن الملف موجود فالمستودع و أن الموقع مخدوم بسيرفر (ماشي فتح مباشر ديال الملف).");
+  set("المكتبات", (typeof firebase!=="undefined")?"ok":"bad", (typeof firebase!=="undefined")?"تحمّلات":"محجوبة",
+      "المكتبات ما تحمّلاتش — يمكن يكون مانع إعلانات ولا الشبكة كتحجب gstatic.com. جرب متصفح آخر ولا شبكة أخرى.");
+  set("الجلسة", S.user?"ok":"warn", S.user?S.user.email:"وضع تجريبي (ما مسجّلش الدخول)",
+      "ضغط 🔑 الدخول و دخل بالحساب ديال المالك.");
+  if(!S.user || !S.db){ set("قراءة البيانات","warn","خاص الدخول الأول"); set("حفظ البيانات","warn","خاص الدخول الأول"); }
+  else{
+    set("قراءة البيانات","run","كنجرب…");
+    try{ await S.db.ref(PATHS.products).limitToFirst(1).once("value"); set("قراءة البيانات","ok","خدامة"); }
+    catch(e){ set("قراءة البيانات","bad",e.code||e.message,
+      "قواعد الوصول ديال قاعدة البيانات ما تنشرّاتش. نسخ القواعد من README و انشرها."); }
+    set("حفظ البيانات","run","كنجرب…");
+    try{
+      await S.db.ref(PATHS.settings+"/_ping").set(Date.now());
+      await S.db.ref(PATHS.settings+"/_ping").remove();
+      set("حفظ البيانات","ok","خدام");
+    }catch(e){ set("حفظ البيانات","bad",e.code||e.message,
+      "الحساب ديالك ما عندوش إذن الكتابة. تأكد أن المعرّف فـ access.ownerId هو نفسو اللي فقواعد الوصول."); }
+  }
+  set("خدمة التصاور","run","كنجرب…");
+  if(!mediaOk) set("خدمة التصاور","bad","ماشي مضبوطة","كمّل media.space و media.channel فـ assets/config.js.");
+  else{
+    try{
+      const png=Uint8Array.from(atob("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg=="),c=>c.charCodeAt(0));
+      const fd=new FormData();
+      fd.append("file",new Blob([png],{type:"image/png"}),"ping.png");
+      fd.append("upload_preset",A.media.channel); fd.append("folder",(A.media.folder||"")+"/_diag");
+      const r=await fetch(`https://api.cloudinary.com/v1_1/${A.media.space}/image/upload`,{method:"POST",body:fd});
+      const j=await r.json().catch(()=>({}));
+      j.secure_url ? set("خدمة التصاور","ok","الرفع خدام")
+                   : set("خدمة التصاور","bad",j.error?.message||"مرفوض",
+                     "الـ preset خاصو يكون unsigned. بدّلو من إعدادات خدمة التصاور.");
+    }catch(e){ set("خدمة التصاور","bad","ما وصلناش للخدمة","تحقق من الاتصال بالإنترنت."); }
+  }
+}
+$("#diag").onclick=runDiag;
+$("#runDiag").onclick=runDiag;
+
+/* ============================================================
    Modals
    ============================================================ */
 function open(sel){ $$(".modal").forEach(m=>m.classList.remove("on")); $(sel).classList.add("on"); $("#veil").classList.add("on"); document.body.style.overflow="hidden" }
@@ -892,6 +981,12 @@ function close(){ $$(".modal").forEach(m=>m.classList.remove("on")); $("#veil").
 document.addEventListener("click",e=>{ if(e.target.closest("[data-close]")) close() });
 $("#veil").onclick=close;
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") close() });
+
+/* ============================================================
+   Start — must stay last: everything above is declared by now
+   ============================================================ */
+loadDemo();
+start();
 </script>
 </body>
 </html>
