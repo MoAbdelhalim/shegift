@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SHEGIFT — بوكسات هدايا | Casablanca</title>
 <meta name="theme-color" content="#FF6FA5">
+<link rel="icon" href="./assets/favicon.png">
+<link rel="apple-touch-icon" href="./assets/logo-180.png">
+<script src="./assets/config.js"></script>
+<script>window.APP_CONFIG||document.write('<scr'+'ipt src="/assets/config.js"><\/scr'+'ipt>')</script>
 <meta name="description" content="بوكسات هدايا جاهزة و مخصصة — التوصيل لجميع المدن، الدفع عند الاستلام.">
 <meta property="og:title" content="SHEGIFT — بوكسات هدايا">
 <meta property="og:description" content="بوكسات هدايا جاهزة و مخصصة. التوصيل لجميع المدن، الدفع عند الاستلام.">
@@ -29,6 +33,7 @@
   --body:'Cairo',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0;padding:0}
 body{
   font-family:var(--body); background:var(--cream); color:var(--plum);
@@ -50,8 +55,9 @@ button{cursor:pointer;border:0;background:none}
 .hdr{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .hdr-in{display:flex;align-items:center;gap:14px;height:66px}
 .brand{display:flex;align-items:center;gap:9px;font-family:var(--display);font-weight:800;font-size:23px;color:var(--plum);letter-spacing:.5px}
-.brand small{display:block;font-family:var(--body);font-size:10px;font-weight:600;color:var(--plum-soft);letter-spacing:1.6px;margin-top:-4px}
-.bow{width:34px;height:34px;flex:none}
+.brand small{font-family:var(--body);font-size:10px;font-weight:700;color:var(--plum-soft);letter-spacing:2px;align-self:center}
+.bow{width:54px;height:54px;flex:none;border-radius:50%}
+.ftr .bow{width:80px;height:80px}
 .nav{display:flex;gap:22px;margin-inline-start:26px;font-weight:600;font-size:15px}
 .nav a{padding:6px 0;border-bottom:2px solid transparent;transition:.18s}
 .nav a:hover{color:var(--pink-deep);border-color:var(--pink)}
@@ -67,7 +73,8 @@ button{cursor:pointer;border:0;background:none}
 @media(max-width:860px){
   .nav{display:none}
   .burger{display:grid}
-  .brand{font-size:20px}
+  .bow{width:46px;height:46px}
+  .brand small{display:none}
 }
 
 /* ---------- search ---------- */
@@ -154,7 +161,7 @@ button{cursor:pointer;border:0;background:none}
 .card .shot img{width:100%;height:100%;object-fit:cover;transition:.4s}
 .card:hover .shot img{transform:scale(1.06)}
 /* the lid flap — lifts on hover */
-.card .flap{position:absolute;inset-inline:0;top:0;height:26%;background:linear-gradient(180deg,rgba(255,111,165,.96),rgba(255,111,165,.62));transform-origin:50% 0;transition:transform .4s cubic-bezier(.34,1.4,.5,1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12.5px;letter-spacing:1px;font-family:var(--display)}
+.card .flap{position:absolute;inset-inline:0;top:0;height:26%;background:linear-gradient(180deg,rgba(255,111,165,.96),rgba(255,111,165,.62));transform-origin:50% 0;transition:transform .4s cubic-bezier(.34,1.4,.5,1);display:flex;align-items:center;justify-content:flex-end;padding-inline-end:14px;color:#fff;font-weight:700;font-size:12px;letter-spacing:1.5px;font-family:var(--display)}
 .card:hover .flap{transform:translateY(-101%)}
 .card .off{position:absolute;top:10px;inset-inline-start:10px;z-index:3;background:var(--sun);color:#6B4A00;font-weight:800;font-size:12px;padding:5px 10px;border-radius:999px;box-shadow:0 4px 10px rgba(0,0,0,.10)}
 .card .out{position:absolute;inset:0;background:rgba(255,255,255,.78);display:grid;place-items:center;font-weight:800;color:var(--plum);z-index:4;backdrop-filter:blur(2px)}
@@ -164,11 +171,30 @@ button{cursor:pointer;border:0;background:none}
 .price .now{font-family:var(--display);font-weight:800;font-size:20px;color:var(--pink-deep)}
 .price .was{font-size:13px;color:#B99AA8;text-decoration:line-through}
 .card .acts{display:flex;gap:7px;margin-top:auto}
-.card .buy{flex:1;background:var(--pink);color:#fff;font-weight:700;border-radius:999px;padding:11px;font-size:13.5px;transition:.2s}
+.card .buy{flex:1;min-width:0;white-space:nowrap;background:var(--pink);color:#fff;font-weight:700;border-radius:999px;padding:11px 8px;font-size:13.5px;transition:.2s}
 .card .buy:hover{background:var(--pink-deep)}
-.card .add{width:42px;border-radius:50%;border:1.5px solid var(--blush);display:grid;place-items:center;transition:.2s;flex:none}
-.card .add:hover{background:var(--pink-soft);border-color:var(--pink)}
-.card .add svg{width:18px;height:18px;stroke:var(--plum);fill:none;stroke-width:1.9;stroke-linecap:round}
+.card .add,.card .share{width:42px;border-radius:50%;border:1.5px solid var(--blush);display:grid;place-items:center;transition:.2s;flex:none}
+.card .add:hover,.card .share:hover{background:var(--pink-soft);border-color:var(--pink)}
+.card .add svg,.card .share svg{width:18px;height:18px;stroke:var(--plum);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:760px){
+  .card .add,.card .share{width:34px}
+  .card .add svg,.card .share svg{width:16px;height:16px}
+  .card .buy{padding:10px 4px;font-size:12px}
+  .card .acts{gap:4px}
+}
+
+/* ---------- share sheet ---------- */
+.share-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.share-grid a,.share-grid button{display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 6px;border:1.5px solid var(--line);border-radius:var(--r-md);font-weight:700;font-size:12px;transition:.18s;background:#fff;text-align:center}
+.share-grid a:hover,.share-grid button:hover{border-color:var(--pink);transform:translateY(-2px)}
+.share-grid .ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center}
+.share-grid .ic svg{width:20px;height:20px;fill:#fff}
+.share-prev{display:flex;gap:12px;align-items:center;background:var(--cream);border-radius:var(--r-md);padding:12px;margin-bottom:16px}
+.share-prev img{width:58px;height:58px;border-radius:12px;object-fit:cover;flex:none}
+.share-prev b{display:block;font-size:13.5px;line-height:1.45}
+.share-prev span{color:var(--pink-deep);font-weight:700;font-size:13px}
+.share-link{display:flex;gap:8px;margin-top:14px}
+.share-link input{flex:1;border:1.5px solid var(--line);background:var(--cream);border-radius:999px;padding:11px 14px;font-size:12.5px;direction:ltr;text-align:left;min-width:0}
 .empty{text-align:center;padding:56px 20px;color:var(--plum-soft)}
 .empty b{display:block;font-family:var(--display);font-size:19px;color:var(--plum);margin-bottom:6px}
 
@@ -305,13 +331,8 @@ html[dir="ltr"] .toast.on{transform:translate(-50%,0)}
       <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
     <a href="#top" class="brand">
-      <svg class="bow" viewBox="0 0 48 48" aria-hidden="true">
-        <path d="M22 24 6 14c-2-1.2-4 .3-4 3v14c0 2.7 2 4.2 4 3l16-10Z" fill="#FF6FA5"/>
-        <path d="M26 24 42 14c2-1.2 4 .3 4 3v14c0 2.7-2 4.2-4 3L26 24Z" fill="#E24F86"/>
-        <circle cx="24" cy="24" r="6" fill="#FFD466"/>
-        <circle cx="24" cy="24" r="2.4" fill="#fff"/>
-      </svg>
-      <span>SHEGIFT<small id="brandSub">CASABLANCA</small></span>
+      <img class="bow" src="./assets/logo.png" alt="SHEGIFT — بوكسات هدايا">
+      <small id="brandSub">CASABLANCA</small>
     </a>
     <nav class="nav" id="mainNav">
       <a href="#top" data-i="nav_home">الرئيسية</a>
@@ -428,12 +449,7 @@ html[dir="ltr"] .toast.on{transform:translate(-50%,0)}
     <div class="ftr-in">
       <div>
         <div class="brand" style="margin-bottom:12px">
-          <svg class="bow" viewBox="0 0 48 48" aria-hidden="true">
-            <path d="M22 24 6 14c-2-1.2-4 .3-4 3v14c0 2.7 2 4.2 4 3l16-10Z" fill="#FF6FA5"/>
-            <path d="M26 24 42 14c2-1.2 4 .3 4 3v14c0 2.7-2 4.2-4 3L26 24Z" fill="#E24F86"/>
-            <circle cx="24" cy="24" r="6" fill="#FFD466"/><circle cx="24" cy="24" r="2.4" fill="#fff"/>
-          </svg>
-          <span>SHEGIFT</span>
+          <img class="bow" src="./assets/logo.png" alt="SHEGIFT — بوكسات هدايا">
         </div>
         <p class="about" data-i="ftr_about">بوكسات هدايا محضرة بيدينا فكازابلانكا. كنصيفطو لجميع المدن المغربية، و الخلاص كيكون عند الاستلام.</p>
         <div class="socials">
@@ -501,9 +517,23 @@ html[dir="ltr"] .toast.on{transform:translate(-50%,0)}
   </div>
 </div>
 
+<div class="modal" id="sModal" role="dialog" aria-modal="true">
+  <div class="sheet" style="max-width:440px">
+    <button class="x close" data-close style="position:absolute;top:14px;inset-inline-end:14px;z-index:5;background:#fff">✕</button>
+    <div style="padding:24px">
+      <h2 style="font-family:var(--display);font-size:20px;margin:0 0 16px" id="shareTitle"></h2>
+      <div class="share-prev" id="sharePrev"></div>
+      <div class="share-grid" id="shareGrid"></div>
+      <div class="share-link">
+        <input id="shareUrl" readonly onclick="this.select()">
+        <button class="btn btn-primary" id="copyLink"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
-<script src="/assets/config.js"></script>
 <script>
 /* ============================================================
    1. CONFIG — everything lives in /assets/config.js
@@ -550,7 +580,7 @@ const I18N = {
     done_h:"تسجل الطلب ديالك! 🎉",done_p:"غادي نعيطو ليك باش نأكدو الطلب. خليك مطمن.",done_wa:"أكد فواتساب",
     add:"زيد للسلة",added:"تزاد للسلة ✓",buy:"شري دابا",out:"نفد",off:"تخفيض",
     none_h:"ما لقينا حتى بوكس",none_p:"جرب صنف آخر ولا بدل الكلمة.",
-    m_qty:"الكمية",m_incl:"شنو كاين داخل",gift:"تغليف هدية مجاني" },
+    share:"شارك",share_t:"شارك هاد البوكس",copy:"نسخ",copied:"تنسخ الرابط ✓",share_ig:"إنستغرام (تنسخ الرابط)",m_qty:"الكمية",m_incl:"شنو كاين داخل",gift:"تغليف هدية مجاني" },
   fr:{ nav_home:"Accueil",nav_shop:"Nos box",nav_custom:"Box perso",nav_faq:"FAQ",
     search_ph:"Cherchez une box, une peluche, un parfum…",
     hero_kick:"Prête en 24 h",hero_h1a:"Des box cadeaux qui font ",hero_h1b:"craquer",
@@ -573,7 +603,7 @@ const I18N = {
     done_h:"Commande enregistrée ! 🎉",done_p:"On vous appelle pour confirmer. À très vite.",done_wa:"Confirmer sur WhatsApp",
     add:"Ajouter",added:"Ajouté ✓",buy:"Commander",out:"Épuisé",off:"promo",
     none_h:"Aucune box trouvée",none_p:"Essayez une autre catégorie ou un autre mot.",
-    m_qty:"Quantité",m_incl:"Contenu de la box",gift:"Emballage cadeau offert" },
+    share:"Partager",share_t:"Partager cette box",copy:"Copier",copied:"Lien copié ✓",share_ig:"Instagram (lien copié)",m_qty:"Quantité",m_incl:"Contenu de la box",gift:"Emballage cadeau offert" },
   en:{ nav_home:"Home",nav_shop:"Our boxes",nav_custom:"Custom box",nav_faq:"FAQ",
     search_ph:"Search a box, a plush, a perfume…",
     hero_kick:"Ready in 24 h",hero_h1a:"Gift boxes they'll love ",hero_h1b:"on sight",
@@ -596,7 +626,7 @@ const I18N = {
     done_h:"Order placed! 🎉",done_p:"We'll call you to confirm. Talk soon.",done_wa:"Confirm on WhatsApp",
     add:"Add to cart",added:"Added ✓",buy:"Buy now",out:"Sold out",off:"off",
     none_h:"No boxes found",none_p:"Try another category or another word.",
-    m_qty:"Quantity",m_incl:"What's inside",gift:"Free gift wrapping" }
+    share:"Share",share_t:"Share this box",copy:"Copy",copied:"Link copied ✓",share_ig:"Instagram (link copied)",m_qty:"Quantity",m_incl:"What's inside",gift:"Free gift wrapping" }
 };
 const CITIES=["الدار البيضاء / Casablanca","الرباط / Rabat","مراكش / Marrakech","طنجة / Tanger","فاس / Fès","أكادير / Agadir","مكناس / Meknès","وجدة / Oujda","القنيطرة / Kénitra","تطوان / Tétouan","سلا / Salé","المحمدية / Mohammedia","الجديدة / El Jadida","بني ملال / Béni Mellal","الناظور / Nador","خريبكة / Khouribga","سطات / Settat","العرائش / Larache","الصويرة / Essaouira","ورزازات / Ouarzazate","أخرى / Autre"];
 
@@ -731,6 +761,7 @@ function renderGrid(){
   const items=visible();
   const g=$("#grid");
   if(!items.length){ g.innerHTML=`<div class="empty" style="grid-column:1/-1"><b>${T("none_h")}</b>${T("none_p")}</div>`; return }
+  deepLink();
   g.innerHTML = items.map(p=>{
     const img = (p.images&&p.images[0]) || p.image || ph(p.emoji||"🎁");
     const off = p.oldPrice&&p.oldPrice>p.price ? Math.round((1-p.price/p.oldPrice)*100) : 0;
@@ -749,6 +780,9 @@ function renderGrid(){
           <button class="buy" data-buy="${esc(p.id)}" ${out?"disabled style=opacity:.45":""}>${T("buy")}</button>
           <button class="add" data-add="${esc(p.id)}" aria-label="${T("add")}" ${out?"disabled style=opacity:.45":""}>
             <svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg>
+          </button>
+          <button class="share" data-share="${esc(p.id)}" aria-label="${T("share")}" title="${T("share")}">
+            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.4 10.8 7.2-4.2M8.4 13.2l7.2 4.2"/></svg>
           </button>
         </div>
       </div>
@@ -780,7 +814,12 @@ function openProduct(id){
         <span style="font-weight:700;font-size:13px">${T("m_qty")}</span>
         <span class="qty"><button id="mMinus">−</button><span id="mQty">1</span><button id="mPlus">+</button></span>
       </div>
-      <button class="btn btn-primary w-full" id="mAdd" ${out?"disabled style=opacity:.5":""}>${out?T("out"):T("add")}</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-primary" style="flex:1" id="mAdd" ${out?"disabled style=opacity:.5":""}>${out?T("out"):T("add")}</button>
+        <button class="btn btn-ghost" data-share="${esc(p.id)}" aria-label="${T("share")}">
+          <svg viewBox="0 0 24 24" style="width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="m8.4 10.8 7.2-4.2M8.4 13.2l7.2 4.2"/></svg>
+        </button>
+      </div>
     </div>`;
   let qty=1;
   $("#mPlus").onclick=()=>{ qty=Math.min(qty+1,Number(p.stock)||99); $("#mQty").textContent=qty };
@@ -905,6 +944,68 @@ async function submitOrder(){
 }
 
 /* ============================================================
+   6b. Sharing
+   ============================================================ */
+function productUrl(id){
+  const u=new URL(location.href); u.hash=""; u.search=""; u.searchParams.set("p",id);
+  return u.toString();
+}
+function shareText(p){
+  const brand=(A.shop?.brand)||"SHEGIFT";
+  return S.lang==="fr" ? `${p.name} — ${p.price} DH chez ${brand} 🎁`
+       : S.lang==="en" ? `${p.name} — ${p.price} DH at ${brand} 🎁`
+       : `${p.name} — ${p.price} درهم من ${brand} 🎁`;
+}
+async function share(id){
+  const p=S.products.find(x=>x.id===id); if(!p) return;
+  const url=productUrl(id), text=shareText(p);
+  if(navigator.share){
+    try{ await navigator.share({title:p.name,text,url}); return }
+    catch(e){ if(e.name==="AbortError") return }   // user closed the native sheet
+  }
+  shareSheet(p,url,text);
+}
+const NETS=[
+  {k:"whatsapp",label:"WhatsApp",bg:"#25D366",href:(u,t)=>`https://wa.me/?text=${encodeURIComponent(t+"\n"+u)}`,
+   svg:'<path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.4-.2-.6.1s-.7.9-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.5.3-.5v-.5c0-.2-.6-1.5-.9-2.1-.2-.5-.4-.4-.6-.5H8a1 1 0 0 0-.8.4 3.1 3.1 0 0 0-1 2.3 5.4 5.4 0 0 0 1.1 2.9 12.3 12.3 0 0 0 4.8 4.2c1.2.5 2.1.8 2.8.7a2.9 2.9 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3ZM12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Z"/>'},
+  {k:"facebook",label:"Facebook",bg:"#1877F2",href:(u)=>`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(u)}`,
+   svg:'<path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/>'},
+  {k:"messenger",label:"Messenger",bg:"#A033FF",href:(u,t)=>`https://www.facebook.com/dialog/send?link=${encodeURIComponent(u)}&app_id=291494419107518&redirect_uri=${encodeURIComponent(u)}`,
+   svg:'<path d="M12 2C6.3 2 2 6.2 2 11.8c0 3 1.4 5.6 3.7 7.3V23l3.4-1.9c.9.3 1.9.4 2.9.4 5.7 0 10-4.2 10-9.7S17.7 2 12 2Zm1 13-2.6-2.7L5.5 15l5.4-5.7 2.6 2.7 4.8-2.7L13 15Z"/>'},
+  {k:"telegram",label:"Telegram",bg:"#2AABEE",href:(u,t)=>`https://t.me/share/url?url=${encodeURIComponent(u)}&text=${encodeURIComponent(t)}`,
+   svg:'<path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.2-8.3c.4-.4-.1-.6-.6-.2L6 12.1l-4.9-1.5c-1.1-.3-1.1-1 .2-1.5l19.2-7.4c.9-.3 1.7.2 1.4 2.7Z"/>'},
+  {k:"x",label:"X",bg:"#000",href:(u,t)=>`https://twitter.com/intent/tweet?text=${encodeURIComponent(t)}&url=${encodeURIComponent(u)}`,
+   svg:'<path d="M17.5 3h3.1l-6.8 7.7L21.8 21h-6.3l-4.9-6.4L4.9 21H1.8l7.2-8.2L2 3h6.4l4.4 5.9L17.5 3Zm-1.1 16.1h1.7L7.7 4.8H5.9l10.5 14.3Z"/>'}
+];
+function shareSheet(p,url,text){
+  $("#shareTitle").textContent=T("share_t");
+  $("#sharePrev").innerHTML=`<img src="${esc((p.images&&p.images[0])||p.image||ph(p.emoji||"🎁"))}" alt="">
+    <div><b>${esc(p.name)}</b><span>${money(p.price)}</span></div>`;
+  $("#shareGrid").innerHTML=NETS.map(n=>`
+    <a href="${n.href(url,text)}" target="_blank" rel="noopener">
+      <span class="ic" style="background:${n.bg}"><svg viewBox="0 0 24 24">${n.svg}</svg></span>${n.label}
+    </a>`).join("")+`
+    <button data-copyig>
+      <span class="ic" style="background:linear-gradient(45deg,#F9CE34,#EE2A7B,#6228D7)"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.6.22 1 .48 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4Zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3Zm6.9-11.1a1.5 1.5 0 1 1-1.5-1.6 1.6 1.6 0 0 1 1.5 1.6Z"/></svg></span>Instagram
+    </button>`;
+  $("#shareUrl").value=url;
+  $("#copyLink").textContent=T("copy");
+  $("#sModal").classList.add("on"); $("#veil").classList.add("on"); document.body.classList.add("locked");
+}
+async function copyLink(msg){
+  const url=$("#shareUrl").value;
+  try{ await navigator.clipboard.writeText(url) }
+  catch{ const i=$("#shareUrl"); i.select(); document.execCommand("copy") }
+  toast(msg||T("copied"));
+}
+function deepLink(){
+  const id=new URLSearchParams(location.search).get("p");
+  if(!id || S.deepDone) return;
+  const p=S.products.find(x=>x.id===id); if(!p) return;
+  S.deepDone=true; openProduct(id);
+}
+
+/* ============================================================
    7. Language
    ============================================================ */
 function applyLang(){
@@ -923,7 +1024,7 @@ function applyLang(){
    ============================================================ */
 function closeAll(){
   $$(".drawer").forEach(d=>d.classList.remove("on"));
-  $("#pModal").classList.remove("on"); $("#veil").classList.remove("on");
+  $("#pModal").classList.remove("on"); $("#sModal").classList.remove("on"); $("#veil").classList.remove("on");
   document.body.classList.remove("locked");
 }
 function openDrawer(sel){ closeAll(); $(sel).classList.add("on"); $("#veil").classList.add("on"); document.body.classList.add("locked") }
@@ -933,6 +1034,9 @@ document.addEventListener("click",e=>{
   if(t.closest("[data-close]")) { closeAll(); return }
   const cat=t.closest("[data-cat]"); if(cat){ S.cat=cat.dataset.cat; renderCats(); renderGrid(); return }
   const add=t.closest("[data-add]"); if(add){ addToCart(add.dataset.add); return }
+  const sh=t.closest("[data-share]"); if(sh){ share(sh.dataset.share); return }
+  if(t.closest("[data-copyig]")){ copyLink(T("share_ig")); return }
+  if(t.closest("#copyLink")){ copyLink(); return }
   const buy=t.closest("[data-buy]"); if(buy){ addToCart(buy.dataset.buy); openDrawer("#cartDrawer"); return }
   const card=t.closest(".card"); if(card && !t.closest("button")){ openProduct(card.dataset.id); return }
   const q=t.closest("[data-q]"); if(q){ setQty(q.dataset.id,Number(q.dataset.q)); return }
