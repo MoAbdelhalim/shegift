@@ -39,7 +39,7 @@ window.APP_CONFIG = {
   },
 
   /* who may open the workspace ------------------------------- */
-  access: { ownerId: "LU84LyBjakPv7oTjnq4YDnHPUYY2" },
+  access: { ownerId: "FbEUlWeNsTWWTn3X4XtPbsZOJjr1" },
 
   /* runtime libraries --------------------------------------- */
   libs: {
